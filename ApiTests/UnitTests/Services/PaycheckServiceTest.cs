@@ -1,6 +1,7 @@
 // filepath: Api/Service/PaycheckServiceTest.cs
 using Api.Models;
 using Api.Service;
+using Api.Service.DeductionService;
 using Api.Service.DeductionService.DeductionCalculatorFactory;
 using Api.Service.DeductionService.DeductionCalculators;
 using Moq;

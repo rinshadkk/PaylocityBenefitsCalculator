@@ -45,8 +45,8 @@ namespace Api.Tests.Controllers
                 }
             };
 
-            _paycheckServiceMock
-                .Setup(service => service.GetAllPayChecks(employeeId)).ReturnsAsync(mockPaychecks);
+            //_paycheckServiceMock
+            //    .Setup(service => service.GetAllPayChecks(employeeId)).ReturnsAsync(mockPaychecks);
 
             // Act
             var result = await _controller.Get(employeeId);

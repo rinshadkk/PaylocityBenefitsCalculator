@@ -1,6 +1,7 @@
 using Api.Repositories;
 using Api.Service;
 using Api.Service.DeductionService;
+using Api.Service.DeductionService.DeductionCalculatorFactory;
 using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
