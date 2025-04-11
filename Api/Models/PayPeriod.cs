@@ -1,6 +1,6 @@
 ﻿namespace Api.Models
 {
-    public class PayPeriodDto
+    public class PayPeriod
     {
         public DateTime StartDate { get; set; } = new DateTime();
         public DateTime EndDate { get; set; } = DateTime.Now;

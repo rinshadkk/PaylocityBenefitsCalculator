@@ -9,7 +9,7 @@
                 return PayPeriod.StartDate.ToString() + " - " + PayPeriod.EndDate.ToString();
             } 
          } 
-        public PayPeriodDto PayPeriod { get; set; } = new PayPeriodDto();
+        public PayPeriod PayPeriod { get; set; } = new PayPeriod();
         public decimal GrossAmount {
             get;set;
          }

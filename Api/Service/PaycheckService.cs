@@ -48,7 +48,7 @@ namespace Api.Service
         /// <param name="employee">The employee for whom the paycheck is being generated.</param>
         /// <param name="payPeriod">The pay period for the paycheck.</param>
         /// <returns>A Paycheck object containing details of the paycheck.</returns>
-        private Paycheck GetPaycheck(Employee employee, PayPeriodDto payPeriod)
+        private Paycheck GetPaycheck(Employee employee, PayPeriod payPeriod)
         {
             var deductions = GetDeductions(employee, payPeriod);
             return new Paycheck()
@@ -66,7 +66,7 @@ namespace Api.Service
         /// <param name="employee">The employee for whom deductions are being calculated.</param>
         /// <param name="payPeriod">The pay period for which deductions are being calculated.</param>
         /// <returns>A list of deductions for the employee.</returns>
-        private List<Deduction> GetDeductions(Employee employee, PayPeriodDto payPeriod)
+        private List<Deduction> GetDeductions(Employee employee, PayPeriod payPeriod)
         {
             List<Deduction> deductions = new();
             var deductionCalculators = _deductionCalculatorFactory.GetDeductionCalculators();
@@ -82,10 +82,10 @@ namespace Api.Service
         /// Generates a list of pay periods for the current year.
         /// </summary>
         /// <returns>A list of PayPeriodDto objects representing bi-weekly pay periods.</returns>
-        private static List<PayPeriodDto> GeneratePayperiods()
+        private static List<PayPeriod> GeneratePayperiods()
         {
             DateTime startDate = new(DateTime.Now.Year, 1, 1); // Assuming that we are generating the paystubs for the current pay period
-            List<PayPeriodDto> payPeriods = new();
+            List<PayPeriod> payPeriods = new();
 
             // Generate 26 bi-weekly pay periods
             for (int i = 0; i < Constants.Constants.Payroll.totalPayperiods; i++)
@@ -93,7 +93,7 @@ namespace Api.Service
                 DateTime startPeriod = startDate.AddDays(i * Payroll.DaysInPayPeriod);  // Start date of each pay period
                 DateTime endPeriod = startPeriod.AddDays(Payroll.DaysInPayPeriod - 1);  // End date of each pay period (14th day is inclusive)
 
-                payPeriods.Add(new PayPeriodDto
+                payPeriods.Add(new PayPeriod
                 {
                     StartDate = startPeriod,
                     EndDate = endPeriod,

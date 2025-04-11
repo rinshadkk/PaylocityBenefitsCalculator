@@ -1,3 +1,4 @@
+using Api.Mappers;
 using Api.Repositories;
 using Api.Service;
 using Api.Service.DeductionService;
@@ -6,7 +7,8 @@ using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
+// Add services to the container
+builder.Services.AddScoped<IMapper, Mapper>();
 builder.Services.AddScoped<IEmployeeRepository, EmployeeRepositor>();
 builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 builder.Services.AddScoped<IDeductionCalculatorFactory, DeductionCalculatorFactory>();

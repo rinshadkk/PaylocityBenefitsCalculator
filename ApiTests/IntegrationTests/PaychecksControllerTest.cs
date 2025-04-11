@@ -1,11 +1,13 @@
 // filepath: Api/Controllers/PaychecksControllerTest.cs
 using Api.Controllers;
 using Api.Dtos.Paycheck;
+using Api.Mappers;
 using Api.Models;
 using Api.Service;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -15,28 +17,31 @@ namespace Api.Tests.Controllers
     {
         private readonly Mock<IPaycheckService> _paycheckServiceMock;
         private readonly PaychecksController _controller;
+        private readonly Mock<IMapper> _mapperMock;
 
         public PaychecksControllerTest()
         {
             _paycheckServiceMock = new Mock<IPaycheckService>();
-            _controller = new PaychecksController(_paycheckServiceMock.Object);
+            _mapperMock = new Mock<IMapper>();
+
+            _controller = new PaychecksController(_paycheckServiceMock.Object,_mapperMock.Object);
         }
 
         [Fact]
         public async Task Get_ShouldReturnOkWithPaychecks()
         {
             // Arrange
-            int employeeId = 1;
-            var mockPaychecks = new List<GetPaycheckDto>
+            int employeeId = 2;
+            var mockPaychecks = new List<Paycheck>
             {
-                new GetPaycheckDto
+                new Paycheck
                 {
                     GrossAmount = 2000,
-                    Deductions = new List<DeductionDto>
+                    Deductions = new List<Deduction>
                     {
-                        new DeductionDto { Amount = 100, Description = "Health Insurance" }
+                        new Deduction { Amount = 100, Description = "Health Insurance" }
                     },
-                    PayPeriod = new Dtos.Paycheck.PayPeriodDto
+                    PayPeriod = new PayPeriod
                     {
                         StartDate = new System.DateTime(2023, 1, 1),
                         EndDate = new System.DateTime(2023, 1, 14),
@@ -45,8 +50,26 @@ namespace Api.Tests.Controllers
                 }
             };
 
-            //_paycheckServiceMock
-            //    .Setup(service => service.GetAllPayChecks(employeeId)).ReturnsAsync(mockPaychecks);
+            var paychecksDto = mockPaychecks.Select(paycheck => new GetPaycheckDto
+            {
+                GrossAmount = paycheck.GrossAmount,
+                Deductions = paycheck.Deductions.Select(d => new DeductionDto
+                {
+                    Amount = d.Amount,
+                    Description = d.Description
+                }).ToList(),
+                PayPeriod = new PayPeriodDto
+                {
+                    StartDate = paycheck.PayPeriod.StartDate,
+                    EndDate = paycheck.PayPeriod.EndDate,
+                    PayDate = paycheck.PayPeriod.PayDate
+                }
+            }).ToList();
+
+            _paycheckServiceMock
+                .Setup(service => service.GetAllPayChecks(It.IsAny<int>())).ReturnsAsync(mockPaychecks);
+
+            _mapperMock.Setup(mapper => mapper.MaptoPaychecksDto(mockPaychecks)).Returns(paychecksDto);
 
             // Act
             var result = await _controller.Get(employeeId);
