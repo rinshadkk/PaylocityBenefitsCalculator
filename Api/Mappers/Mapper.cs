@@ -5,6 +5,11 @@ namespace Api.Mappers
 {
     public class Mapper : IMapper
     {
+        /// <summary>
+        /// Custom Mapper
+        /// </summary>
+        /// <param name="paychecks"></param>
+        /// <returns></returns>
         public List<GetPaycheckDto> MaptoPaychecksDto(List<Paycheck> paychecks)
         {
             // Map Paycheck objects to GetPaycheckDto objects
