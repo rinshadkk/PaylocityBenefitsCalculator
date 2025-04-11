@@ -68,7 +68,7 @@ namespace Api.Service
         /// <returns>A list of deductions for the employee.</returns>
         private List<Deduction> GetDeductions(Employee employee, PayPeriod payPeriod)
         {
-            //TODO: Move this to a facade
+            //TODO: Move this to a facade to implement a strategy pattern
             List<Deduction> deductions = new();
             var deductionCalculators = _deductionCalculatorFactory.GetDeductionCalculators();
             foreach (var deducationCalculator in deductionCalculators)

@@ -9,6 +9,7 @@ namespace Api.Repositories
     {
         public async Task<Employee> GetEmployeeById(int Id)
         {
+            //TODO: In the real implementation, add transaction handling. Preferably UnitOfWork
             var employee = FetchMockedEmployee().Where(x=>x.Id == Id).FirstOrDefault();
             return employee;
         }
@@ -24,7 +25,7 @@ namespace Api.Repositories
         private  List<Employee> FetchMockedEmployee()
         {
 
-            //task: use a more realistic production approach
+            //TODO: use a more realistic production approach
             var employees = new List<Employee>
             {
                 new()

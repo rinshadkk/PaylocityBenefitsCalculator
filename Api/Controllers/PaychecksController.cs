@@ -29,6 +29,8 @@ namespace Api.Controllers
         [HttpGet("employee/{id}")]
         public async Task<ActionResult<ApiResponse<List<GetPaycheckDto>>>> Get(int id)
         {
+            //TODO: Add Excpetion Handling. Create a new Exception handling middleware 
+            //TODO: Use Mediator to make this layer thinner
             var paychecks = await _paycheckService.GetAllPayChecks(id);
             return Ok(_mapper.MaptoPaychecksDto(paychecks));
         }
